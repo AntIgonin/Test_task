@@ -1,14 +1,17 @@
 package com.example.anton.myapplication.Fragments.FragmentCar;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.anton.myapplication.Classes.ApiClient;
 import com.example.anton.myapplication.Classes.FileUtils;
@@ -36,7 +39,16 @@ public class FragmentCarView extends Fragment implements RequestCallback {
         View rootView =
                 inflater.inflate(R.layout.fragment_car, container, false);
 
-        recyclerViewAdapter.setCarList(FileUtils.loadDataLocal(getActivity().getBaseContext()));
+        final SwipeRefreshLayout refreshControl = (SwipeRefreshLayout) rootView.findViewById(R.id.refreshControl);
+        refreshControl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadCar();
+                refreshControl.setRefreshing(false);
+            }
+        });
+
+
         initRecyclerView(rootView);
 
         return rootView;
@@ -45,7 +57,12 @@ public class FragmentCarView extends Fragment implements RequestCallback {
     @Override
     public void onResume() {
         super.onResume();
-        loadCar();
+        if(FileUtils.checkDataExist(getActivity().getBaseContext())){
+            recyclerViewAdapter.setCarList(FileUtils.loadDataLocal(getActivity().getBaseContext()));
+        }else {
+           loadCar();
+        }
+
     }
 
     private void initRecyclerView(View view){
@@ -61,6 +78,7 @@ public class FragmentCarView extends Fragment implements RequestCallback {
 
     @Override
     public void updateAdapter(List<Cars> arrayList) {
+        recyclerViewAdapter.clearCarList();
         recyclerViewAdapter.setCarList(arrayList);
     }
 }

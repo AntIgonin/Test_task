@@ -1,6 +1,8 @@
 package com.example.anton.myapplication.Model;
 
-public class Cars {
+import java.io.Serializable;
+
+public class Cars implements Serializable {
 
     String model_id;
     String year;

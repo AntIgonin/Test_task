@@ -45,6 +45,13 @@ public class FileUtils {
         return arrayList;
     }
 
+    public static boolean checkDataExist(Context context){
+        File file = new File(context.getFilesDir(), Constants.CARS_DATA);
+        if (file.exists()) {
+            return true;
+        }else return false;
+    }
+
     public static Boolean writeDataLocal(List<Cars> arrayList, Context context) {
         boolean result = false;
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="GO!"
+        android:text="@string/GeneralButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 </RelativeLayout>
