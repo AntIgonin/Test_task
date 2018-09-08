@@ -1,9 +1,7 @@
-package com.example.anton.myapplication.ViewControllers;
+package com.example.anton.myapplication.Activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.anton.myapplication.Fragments.FragmentButton;
 import com.example.anton.myapplication.R;

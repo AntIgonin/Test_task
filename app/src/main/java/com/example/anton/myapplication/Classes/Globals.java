@@ -1,7 +1,7 @@
 package com.example.anton.myapplication.Classes;
 
 
-import com.example.anton.myapplication.Model.Cars;
+import com.example.anton.myapplication.Common.Cars;
 
 public class Globals {
     private static Globals instance;

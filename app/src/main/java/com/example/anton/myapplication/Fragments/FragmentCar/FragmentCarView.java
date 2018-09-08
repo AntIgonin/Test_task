@@ -1,36 +1,29 @@
 package com.example.anton.myapplication.Fragments.FragmentCar;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.anton.myapplication.Classes.ApiClient;
 import com.example.anton.myapplication.Classes.FileUtils;
 import com.example.anton.myapplication.Interface.RequestCallback;
-import com.example.anton.myapplication.Model.Cars;
-import com.example.anton.myapplication.ModelPresenter.CarPresenter;
+import com.example.anton.myapplication.Common.Cars;
+import com.example.anton.myapplication.Model.CarModel;
+import com.example.anton.myapplication.Presenter.CarPresenter;
 import com.example.anton.myapplication.R;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class FragmentCarView extends Fragment implements RequestCallback {
+public class FragmentCarView extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter();
+
+    CarPresenter presenter;
 
 
     @Nullable
@@ -39,30 +32,12 @@ public class FragmentCarView extends Fragment implements RequestCallback {
         View rootView =
                 inflater.inflate(R.layout.fragment_car, container, false);
 
-        final SwipeRefreshLayout refreshControl = (SwipeRefreshLayout) rootView.findViewById(R.id.refreshControl);
-        refreshControl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadCar();
-                refreshControl.setRefreshing(false);
-            }
-        });
-
 
         initRecyclerView(rootView);
+        initPresenter();
+
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(FileUtils.checkDataExist(getActivity().getBaseContext())){
-            recyclerViewAdapter.setCarList(FileUtils.loadDataLocal(getActivity().getBaseContext()));
-        }else {
-           loadCar();
-        }
-
     }
 
     private void initRecyclerView(View view){
@@ -71,14 +46,20 @@ public class FragmentCarView extends Fragment implements RequestCallback {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    private void loadCar(){
-        CarPresenter carPresenter = new CarPresenter(getActivity().getBaseContext());
-        carPresenter.uploadCars(this);
+    private void initPresenter(){
+        CarModel carModel = new CarModel(getActivity().getBaseContext());
+        presenter = new CarPresenter(carModel);
+        presenter.attachView(this);
+        presenter.viewReady();
+    }
+
+    public void showCarList(List<Cars> cars){
+        recyclerViewAdapter.setCarList(cars);
     }
 
     @Override
-    public void updateAdapter(List<Cars> arrayList) {
-        recyclerViewAdapter.clearCarList();
-        recyclerViewAdapter.setCarList(arrayList);
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

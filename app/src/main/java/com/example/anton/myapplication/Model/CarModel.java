@@ -1,14 +1,14 @@
-package com.example.anton.myapplication.ModelPresenter;
+package com.example.anton.myapplication.Model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.anton.myapplication.Classes.ApiClient;
 import com.example.anton.myapplication.Classes.FileUtils;
 import com.example.anton.myapplication.Interface.RequestCallback;
-import com.example.anton.myapplication.Model.Cars;
-import com.example.anton.myapplication.Model.ModelCars;
+import com.example.anton.myapplication.Common.Cars;
+import com.example.anton.myapplication.Common.ModelCars;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CarPresenter {
+public class CarModel {
     List<Cars> cars;
     List<ModelCars> modelCars;
     Context context;
 
-    public CarPresenter(Context context){
+    public CarModel(Context context){
         this.context = context;
     }
 
@@ -39,6 +39,14 @@ public class CarPresenter {
         }
             @Override
             public void onFailure (Call < List < Cars >> call, Throwable t){
+                if(FileUtils.checkDataExist(context)){
+                    cars = FileUtils.loadDataLocal(context);
+                    requestCallback.updateAdapter(cars);
+                }else {
+                    Toast toast = Toast.makeText(context,
+                            "Требуется соединение с интернетом!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
         }
         });
     }
@@ -55,6 +63,14 @@ public class CarPresenter {
             }
             @Override
             public void onFailure (Call < List < ModelCars >> call, Throwable t){
+                if(FileUtils.checkDataExist(context)){
+                    cars = FileUtils.loadDataLocal(context);
+                    requestCallback.updateAdapter(cars);
+                }else {
+                    Toast toast = Toast.makeText(context,
+                            "Требуется соединение с интернетом!", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
 
@@ -63,8 +79,8 @@ public class CarPresenter {
     private void setModel(RequestCallback requestCallback){
         for(Cars car:cars){
             for (ModelCars modelCar:modelCars){
-                if (car.getModel_id().equals(String.valueOf(modelCar.getId()))){
-                    car.setModel_id(modelCar.getTitle());
+                if (car.getModel_id() == modelCar.getId()){
+                    car.setModel_name(modelCar.getTitle());
                 }
             }
         }

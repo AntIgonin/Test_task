@@ -3,7 +3,7 @@ package com.example.anton.myapplication.Classes;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.anton.myapplication.Model.Cars;
+import com.example.anton.myapplication.Common.Cars;
 
 import java.io.File;
 import java.io.FileInputStream;

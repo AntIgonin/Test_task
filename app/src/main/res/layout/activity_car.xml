@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.anton.myapplication.ViewControllers.CarActivity">
+    tools:context="com.example.anton.myapplication.Activity.CarActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

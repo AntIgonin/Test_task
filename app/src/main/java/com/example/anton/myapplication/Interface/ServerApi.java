@@ -1,7 +1,7 @@
 package com.example.anton.myapplication.Interface;
 
-import com.example.anton.myapplication.Model.Cars;
-import com.example.anton.myapplication.Model.ModelCars;
+import com.example.anton.myapplication.Common.Cars;
+import com.example.anton.myapplication.Common.ModelCars;
 
 import java.util.List;
 

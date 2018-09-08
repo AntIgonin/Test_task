@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.anton.myapplication.Model.Cars;
+import com.example.anton.myapplication.Common.Cars;
 import com.example.anton.myapplication.R;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView ownerTextView;
 
         public void bind(Cars cars){
-            modelTextView.setText(cars.getModel_id());
+            modelTextView.setText(cars.getModel_name());
             yearTextView.setText(cars.getYear());
             ownerTextView.setText(cars.getOwner());
         }

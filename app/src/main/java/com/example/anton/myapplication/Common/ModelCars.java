@@ -1,4 +1,4 @@
-package com.example.anton.myapplication.Model;
+package com.example.anton.myapplication.Common;
 
 
 public class ModelCars {
